@@ -1,5 +1,5 @@
 {
-  "name": "react-rest-api",
+  "name": "hotel-cms",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -42,5 +42,9 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.2.7"
-  }
+  },
+  "main": "tailwind.config.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
