@@ -9,9 +9,10 @@ const IndexRouter = () => {
   return (
       <>
         <Routes>
-          <Route path='/' element={<Login />}/>
+          <Route path='/' element={<Login />}>
+          <Route index path='/login' element={<Login />}/>
+          </Route>
           <Route path='/admin' element={<Default />}>
-            <Route index path='/admin/' element={<Dashboard />} />
             <Route index path='/admin/dashboard' element={<Dashboard />} />
             <Route path='/admin/users' element={<Users />} />
           </Route> 
