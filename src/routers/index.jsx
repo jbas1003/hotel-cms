@@ -15,7 +15,7 @@ const IndexRouter = () => {
           <Route path='/admin' element={<Default />}>
             <Route index path='/admin/dashboard' element={<Dashboard />} />
             <Route path='/admin/employees' element={<Employees />} />
-          </Route> 
+          </Route>
         </Routes>
       </>
   );
