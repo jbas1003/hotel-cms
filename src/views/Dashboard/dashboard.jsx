@@ -1,10 +1,17 @@
 import useAuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-   const { employee } = useAuthContext();
+   const { employee, isLoggedIn } = useAuthContext();
+   const navigate = useNavigate();
+
+  //  if (!isLoggedIn) {
+  //     navigate('/');
+  //  }
+
   return (
     <>
-      Welcome, {employee?.firstName}!
+      Welcome, {employee?.first_name}!
     </>
   )
 }

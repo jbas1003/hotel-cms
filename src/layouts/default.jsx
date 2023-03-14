@@ -1,11 +1,13 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import NavBar from '../components/statics/navbar/navbar.jsx';
 import SideBar from '../components/statics/sidebar/sidebar.jsx';
-// import DefaultRouter from '../routers/default-router.jsx';
+import useAuthContext from '../context/AuthContext.jsx';
 
 const Default = () => {
-  return (
+  const { employee, LoginResult } = useAuthContext();
+
+  return employee ? (
     <>
         <NavBar />
         <SideBar />
@@ -15,7 +17,8 @@ const Default = () => {
           </div>
         </div>
     </>
-  );
+  )
+  : <Navigate to="/login" />
 }
 
 export  default Default;

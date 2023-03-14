@@ -1,35 +1,19 @@
 import { React, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import useAuthContext from '../../context/AuthContext';
-import axios from '../../Utils/api/axios';
 
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { login, errors } = useAuthContext();
+    const { employee, login, errors } = useAuthContext();
+    
 
     async function HandleLogin (myEvent) {
         myEvent.preventDefault();
-        login(username, password)
+        login(username, password);
     }
 
-    // async function HandleLogin (myEvent) {
-    //     myEvent.preventDefault();
-
-    //     try {
-    //         await axios.post('/employees/login', { username, password })
-    //         .then(result => {
-    //             var data = result.data
-    //             var employee = data.employeeData
-
-    //             console.log(data.token)
-    //         })
-    //     } catch (e) {
-            
-    //     }
-    // }
-
-  return (
+  return employee ? <Navigate to="/admin/dashboard" /> : (
     <>
         <div className="flex items-center justify-center h-screen bg-whiteSmoke">
             <div className="w-96 p-6 shadow-lg bg-white rounded-md">
