@@ -1,9 +1,10 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from "./default-router.jsx"
 
 const DefaultRouter = () => {
-  return (
+  
+  return ( 
     <>
       <Routes>
         <Route path='/dashboard' element={<Dashboard />}>
@@ -11,7 +12,7 @@ const DefaultRouter = () => {
         </Route>
       </Routes>
     </>
-  );
+  )
 }
 
 export default DefaultRouter;
