@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from 'react';
-import { AddNewemployee, DeleteEmployee, GetEmployees, UpdateEmployee } from '../../../Utils/methods';
-import ModalAdd from '../../../Utils/modals/ModalAddEmployee';
-import ModalDeleteWarning from '../../../Utils/modals/ModalDeleteWarning';
-import ModalEditEmployee from '../../../Utils/modals/ModalEditEmployee';
+import { AddNewemployee, DeleteEmployee, GetEmployees, UpdateEmployee } from '../../Utils/methods';
+import ModalAdd from '../../Utils/modals/ModalAddEmployee';
+import ModalDeleteWarning from '../../Utils/modals/ModalDeleteWarning';
+import ModalEditEmployee from '../../Utils/modals/ModalEditEmployee';
 
 const Employees = () => {
     const [id, setId] = useState();
