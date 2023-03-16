@@ -56,23 +56,6 @@ export const AuthProvider = ({ children }) => {
         })
     }
 
-    // const logout = async () => {
-
-    //     let token = employee.token;
-    //     let eoString = token.indexOf('|', 0);
-    //     let token_id = token.slice(0, eoString);
-        
-    //     try {
-    //         const {data:logoutData} = await axios.post('/api/employees/logout', {employee: employee.__ ,token_id: token_id});
-            
-    //         window.sessionStorage.clear();
-    //         updateEmployee();
-    //         setLoginResult();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     useEffect(() => {
         updateEmployee(JSON.parse(window.sessionStorage.getItem("employeeData")));
     },[])
