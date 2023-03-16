@@ -1,17 +1,62 @@
 import { serverRoutes } from "./constants";
-import axios from "./api/axios";
 import { useNavigate } from 'react-router-dom';
 
-export const AddNewemployee = (employeeId, firstName, lastName, contactNumber, email, username, password) => {
+export function Login (username, password) {
     var myHeaders = new Headers();
+    myHeaders.append("Content-type", "application/json");
+
+    var raw = JSON.stringify({
+        "username": username,
+        "password": password
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(serverRoutes.employeeLogin, requestOptions)
+}
+
+export function Logout (id, token) {
+    
+    let eoString = token.indexOf('|', 0);
+    let token_id = token.slice(0, eoString);
+
+    var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-type", "application/json");
+
+    var raw = JSON.stringify({
+        "employee": id,
+        "token_id": token_id
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(serverRoutes.employeeLogout, requestOptions)
+
+}
+
+export const AddNewemployee = (employeeId, firstName, lastName, contactNumber, email, username, password, token) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
         "employee_id": employeeId,
-        "firstName": firstName,
-        "lastName": lastName,
+        "first_name": firstName,
+        "last_name": lastName,
         "username": username,
         "email": email,
-        "contactNo": contactNumber,
+        "contact_no": contactNumber,
         "password": password
     });
 
@@ -24,8 +69,8 @@ export const AddNewemployee = (employeeId, firstName, lastName, contactNumber, e
 
     fetch(serverRoutes.employees, requestOptions)
     .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+    .then(result => {return result})
+    .catch(error => {return error});
 }
 
 export const GetEmployees = (callback) => {
@@ -44,7 +89,7 @@ export const GetEmployees = (callback) => {
         var newResult = await response.json()
         // console.log(response.status)
         if(response.status !== 200) {
-            console.log('Error: ', response.message)
+            { return response.message }
             // callback(response)
         }else{
             callback(newResult)
@@ -52,17 +97,32 @@ export const GetEmployees = (callback) => {
     })
 }
 
-export const UpdateEmployee = (id, employeeId, firstName, lastName, contactNumber, email, username, password) => {
+export function GetEmployee (id, token) {
     var myHeaders = new Headers();
+
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-type", "application/json");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(serverRoutes.UDEmployee + id, requestOptions);
+}
+
+export const UpdateEmployee = (id, employeeId, firstName, lastName, contactNumber, email, username, token) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
         "employee_id": employeeId,
-        "firstName": firstName,
-        "lastName": lastName,
+        "first_name": firstName,
+        "last_name": lastName,
         "username": username,
         "email": email,
-        "contactNo": contactNumber,
-        "password": password
+        "contact_no": contactNumber
     });
 
     var requestOptions = {
@@ -72,14 +132,15 @@ export const UpdateEmployee = (id, employeeId, firstName, lastName, contactNumbe
         redirect: 'follow'
       };
       
-    fetch('http://127.0.0.1:8000/api/employees/' + id + '/update', requestOptions)
+    fetch(serverRoutes.UDEmployee + id, requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+    .catch(error => console.log("Error", error));
 }
 
-export const DeleteEmployee = (id) => {
+export const DeleteEmployee = (id, token) => {
     var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
     var requestOptions = {
@@ -88,30 +149,8 @@ export const DeleteEmployee = (id) => {
         redirect: 'follow'
       };
       
-    fetch('http://127.0.0.1:8000/api/employees/' + id + '/delete', requestOptions)
+    fetch(serverRoutes.UDEmployee + id, requestOptions)
     .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+    .then(result => {return result})
+    .catch(error => {return error});
 }
-
-// export function HandleLogin (username, password) {
-//     var myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "application/json");
-
-//     var raw = JSON.stringify({
-//         username: username,
-//         password: password
-//     });
-
-//     var requestOptions = {
-//         method: 'POST',
-//         headers: myHeaders,
-//         body: raw,
-//         redirect: 'follow'
-//     }
-
-//     fetch(serverRoutes.employeeLogin, requestOptions)
-//     .then(response => response.json())
-//     .then(result => {return result})
-//     .catch(error => console.log('error', error));
-// }

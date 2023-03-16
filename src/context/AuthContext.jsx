@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from '../Utils/api/axios';
 import { useNavigate } from 'react-router-dom';
+import { Login, GetEmployee, Logout } from '../Utils/methods';
 
 const AuthContext = createContext({});
 
@@ -10,53 +11,67 @@ export const AuthProvider = ({ children }) => {
     const [errors, setErrors] = useState([]);
     const [LoginResult, setLoginResult] = useState();
     const navigate = useNavigate();
-    var id;
+    var id = {};
 
-    async function login (username, password) {
-            
-            try {
-                const {data:loginResult} = await axios.post('/api/employees/login', {username, password});
+    function login (username, password) {
 
+            Login(username, password)
+            .then(response => {return response.text()})
+            .then(result => {
+                let loginResult = JSON.parse(result);
                 setLoginResult(loginResult);
-                // token = loginResult.token;
-                
-                const {data:getEmployeeResult} = await axios.get('/api/employees/'+ loginResult.employee, {
-                    headers: { 'Authorization': `Bearer ${loginResult.token}` }
-                });
 
-                updateEmployee(getEmployeeResult);
-                // console.log(getEmployeeResult);
-                const employeeData = {
-                    "first_name": getEmployeeResult.first_name,
-                    "last_name": getEmployeeResult.last_name,
-                    "email": getEmployeeResult.email,
-                    "token": loginResult.token
-                };
-                window.sessionStorage.setItem("employeeData", JSON.stringify(employeeData))
-                updateEmployee(JSON.parse(window.sessionStorage.getItem("employeeData")));
-                navigate('/admin/dashboard');
-                id = loginResult.token
-            } catch (e) {
-                console.log(e);
-            } 
+                GetEmployee(loginResult.employee, loginResult.token)
+                .then(response => {return response.text()})
+                .then(result => {
+                    let getEmployeeResult = JSON.parse(result);
+                    
+                    const employeeData = {
+                        "__": getEmployeeResult.id,
+                        "first_name": getEmployeeResult.first_name,
+                        "last_name": getEmployeeResult.last_name,
+                        "email": getEmployeeResult.email,
+                        "token": loginResult.token
+                    };
+
+                    window.sessionStorage.setItem("employeeData", JSON.stringify(employeeData));
+                    updateEmployee(JSON.parse(window.sessionStorage.getItem("employeeData")));
+                })
+                .catch(error => {console.log(error)});
+            })
+            .catch(error => {console.log(error)});
     }
 
-    const logout = async () => {
-
-        let token = employee.token;
-        let eoString = token.indexOf('|', 0);
-        let token_id = token.slice(0, eoString);
-        
-        try {
-            await axios.post('/api/employees/logout', {employee: id ,token_id: token_id});
-            
+    function logout(){
+        Logout(employee.__, employee.token)
+        .then(result => {
             window.sessionStorage.clear();
             updateEmployee();
             setLoginResult();
-        } catch (error) {
-            console.log(error);
-        }
+
+            return result
+        })
+        .catch(error => {
+            return error;
+        })
     }
+
+    // const logout = async () => {
+
+    //     let token = employee.token;
+    //     let eoString = token.indexOf('|', 0);
+    //     let token_id = token.slice(0, eoString);
+        
+    //     try {
+    //         const {data:logoutData} = await axios.post('/api/employees/logout', {employee: employee.__ ,token_id: token_id});
+            
+    //         window.sessionStorage.clear();
+    //         updateEmployee();
+    //         setLoginResult();
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     useEffect(() => {
         updateEmployee(JSON.parse(window.sessionStorage.getItem("employeeData")));
