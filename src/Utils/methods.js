@@ -1,5 +1,4 @@
 import { serverRoutes } from "./constants";
-import { useNavigate } from 'react-router-dom';
 
 export function Login (username, password) {
     var myHeaders = new Headers();
