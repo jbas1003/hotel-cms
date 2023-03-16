@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from '../Utils/api/axios';
 import { useNavigate } from 'react-router-dom';
 import { Login, GetEmployee, Logout } from '../Utils/methods';
 
@@ -10,8 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [employee, updateEmployee] = useState();
     const [errors, setErrors] = useState([]);
     const [LoginResult, setLoginResult] = useState();
-    const navigate = useNavigate();
-    var id = {};
 
     function login (username, password) {
 
