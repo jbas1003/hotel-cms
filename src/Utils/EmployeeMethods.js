@@ -88,8 +88,7 @@ export const GetEmployees = (callback) => {
         var newResult = await response.json()
         // console.log(response.status)
         if(response.status !== 200) {
-            { return response.message }
-            // callback(response)
+            return response.message
         }else{
             callback(newResult)
         }

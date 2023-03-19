@@ -62,7 +62,7 @@ export function UpdateRoomTypes (roomTypeId, roomName, roomDescription, roomSize
 }
 
 export function DeleteRoomType (roomTypeId) {
-    var myHeaders = new myHeaders();
+    var myHeaders = new Headers();
 
     myHeaders.append("Content-type", "application/json");
 

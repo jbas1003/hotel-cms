@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Login, GetEmployee, Logout } from '../Utils/EmployeeMethods';
 
 const AuthContext = createContext({});
@@ -7,7 +7,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
 
     const [employee, updateEmployee] = useState();
-    const [errors, setErrors] = useState([]);
+    // const [errors, setErrors] = useState([]);
     const [LoginResult, setLoginResult] = useState();
 
     function login (username, password) {
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     },[])
 
 
-    return <AuthContext.Provider value={{ employee, errors, login, LoginResult, logout }}>
+    return <AuthContext.Provider value={{ employee, login, LoginResult, logout }}>
         {children}
     </AuthContext.Provider>
 }
