@@ -5,7 +5,7 @@ import SideBar from '../components/statics/sidebar/sidebar.jsx';
 import useAuthContext from '../context/AuthContext.jsx';
 
 const Default = () => {
-  const { employee, LoginResult } = useAuthContext();
+  const { employee } = useAuthContext();
 
   return employee ? (
     <>

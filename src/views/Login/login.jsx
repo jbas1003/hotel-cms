@@ -5,7 +5,7 @@ import useAuthContext from '../../context/AuthContext';
 export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { employee, login, errors } = useAuthContext();
+    const { employee, login } = useAuthContext();
     
 
     async function HandleLogin (myEvent) {

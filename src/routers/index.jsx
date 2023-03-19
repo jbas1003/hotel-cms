@@ -1,15 +1,13 @@
 import React from 'react';
-import { Routes, Router, Route, Navigate, MemoryRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Default from '../layouts/default.jsx';
 import Dashboard from '../views/Dashboard/dashboard.jsx';
 import Employees from '../views/employees/employees.jsx';
 import { Login } from '../views/Login/login.jsx';
-import useAuthContext from '../context/AuthContext.jsx';
 import Website from '../views/Website/website.jsx';
 
 
 const IndexRouter = () => {
-  const { employee } = useAuthContext();
   
   return (
       <>
