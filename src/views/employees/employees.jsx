@@ -1,8 +1,8 @@
 import { React, useState, useEffect } from 'react';
-import { AddNewemployee, DeleteEmployee, GetEmployees, UpdateEmployee } from '../../Utils/methods';
-import ModalAdd from '../../Utils/modals/ModalAddEmployee';
-import ModalDeleteWarning from '../../Utils/modals/ModalDeleteWarning';
-import ModalEditEmployee from '../../Utils/modals/ModalEditEmployee';
+import { AddNewemployee, DeleteEmployee, GetEmployees, UpdateEmployee } from '../../Utils/EmployeeMethods';
+import ModalAdd from '../../Utils/modals/Employees/ModalAddEmployee';
+import ModalDeleteWarning from '../../Utils/modals/Employees/ModalDeleteWarning';
+import ModalEditEmployee from '../../Utils/modals/Employees/ModalEditEmployee';
 import useAuthContext from '../../context/AuthContext';
 
 const Employees = () => {
@@ -68,6 +68,28 @@ const Employees = () => {
         ))
     }
 
+    function tableSearch() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("tableSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("employeeDTbl");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the        search query
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
     useEffect(() => {
         getEmployees();
     }, []);
@@ -77,30 +99,30 @@ const Employees = () => {
             <div className="relative shadow-md sm:rounded-lg">
                 <div className="flex items-center justify-between pb-4">
                     <div className="pb-4 bg-white dark:bg-gray-900">
-                        <label for="table-search" className="sr-only">Search</label>
+                        <label for="tableSearch" className="sr-only">Search</label>
                         <div className="relative mt-1">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                             </div>
-                            <input type="text" id="table-search" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" />
+                            <input type="text" id="tableSearch" onKeyUp={tableSearch} className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" />
                         </div>
                     </div>
                     <div>
-                    <button type="button"
-                        className="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={() => setShowAddEmployee(true)}
-                    >
-                    <svg aria-hidden="true" className="flex-shrink-0 w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">Add New Employee</span>
-                    </button>
+                        <button type="button"
+                            className="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            onClick={() => setShowAddEmployee(true)}
+                        >
+                        <svg aria-hidden="true" className="flex-shrink-0 w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="flex-1 ml-3 whitespace-nowrap">Add New Employee</span>
+                        </button>
                     </div>
                 </div>
                 <div className='overflow-x-auto'>
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <table id='employeeDTbl' className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
+                            <tr id='dataRow'>
                                 <th scope="col" className="px-6 py-3">
                                     Employee ID
                                 </th>
@@ -124,12 +146,12 @@ const Employees = () => {
                         <tbody>
                             { 
                                 getAllEmployees.map((items) => (
-                                    <tr key={items.id} className="bg-white dark:bg-gray-800">
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <tr key={items.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className='editable' style={{ cursor: "pointer" }}>
                                                 { items.employee_id }
                                             </div>
-                                        </th>
+                                        </td>
                                         
                                         <td className="px-6 py-4  w-12 whitespace-nowrap" style={{ cursor: "pointer" }}>
                                             <div className='editable' style={{ cursor: "pointer" }}>
@@ -142,9 +164,9 @@ const Employees = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap" style={{ cursor: "pointer" }}>
-                                        <div className='editable' style={{ cursor: "pointer" }}>
-                                            {items.email}
-                                        </div>
+                                            <div className='editable' style={{ cursor: "pointer" }}>
+                                                {items.email}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap" style={{ cursor: "pointer" }}>
                                             <div className='editable' style={{ cursor: "pointer" }}>

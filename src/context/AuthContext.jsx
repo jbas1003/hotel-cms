@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Login, GetEmployee, Logout } from '../Utils/methods';
+import { Login, GetEmployee, Logout } from '../Utils/EmployeeMethods';
 
 const AuthContext = createContext({});
 
