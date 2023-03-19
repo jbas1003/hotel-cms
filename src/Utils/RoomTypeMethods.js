@@ -60,3 +60,17 @@ export function UpdateRoomTypes (roomTypeId, roomName, roomDescription, roomSize
 
     return fetch(serverRoutes.UDRoomTypes + roomTypeId, requestOptions);
 }
+
+export function DeleteRoomType (roomTypeId) {
+    var myHeaders = new myHeaders();
+
+    myHeaders.append("Content-type", "application/json");
+
+    var requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        redirect: "follow"
+    }
+
+    return fetch(serverRoutes.UDRoomTypes + roomTypeId, requestOptions);
+}
