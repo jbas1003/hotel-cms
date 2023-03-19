@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { AddRoomTypes, GetRoomTypes, UpdateRoomTypes } from '../../../RoomTypeMethods';
+import { AddRoomTypes, DeleteRoomType, GetRoomTypes, UpdateRoomTypes } from '../../../RoomTypeMethods';
 import ModalAddRoomType from './Modals/ModalAddRoomType';
 import ModalEditRoomType from './Modals/ModalEditRoomType';
+import ModalRTDeleteWarning from './Modals/ModalRTDeleteWarning';
 
 const DTRoomTypes = () => {
     const [getAllRoomTypes, setGetAllRoomTypes] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [showDelete, setShowDelete] = useState(false);
 
     const [roomTypeId, setRoomTypeId] = useState();
     const [roomTypeName, setRoomTypeName] = useState();
@@ -34,10 +36,22 @@ const DTRoomTypes = () => {
 
     const updateRoomType = () => {
         UpdateRoomTypes(roomTypeId,roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity)
-        .then(result => {console.log(result)})
-        .catch(error => console.log(error));
+        .then(result => {return result})
+        .catch(error => {return error});
 
         setShowEdit(false);
+        getRoomTypes();
+    }
+
+    const showDeleteWarning = (id, roomName) => {
+        setRoomTypeId(id);
+        setRoomTypeName(roomName);
+
+        setShowDelete(true);
+    }
+
+    const deleteRoomType = () => {
+        DeleteRoomType(roomTypeId);
     }
 
     // START: DT Search function
@@ -153,7 +167,7 @@ const DTRoomTypes = () => {
                                         <td className="px-6 py-4 whitespace-nowrap" style={{ cursor: "pointer", width: "20%" }}>
                                             <button type="button"
                                                 className="text-red-800 border border-red-800 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800"
-                                                // onClick={() => ShowDeleteWarning(items.id, items.first_name, items.last_name)}
+                                                onClick={() => showDeleteWarning(items.room_type_id, items.name)}
                                             >
                                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -242,13 +256,6 @@ const DTRoomTypes = () => {
                 <ModalEditRoomType show={showEdit} setShow={setShowEdit}>
                 <div className="space-y-6" action="#">
                     <div className='flex flex-row justify-between'>
-                        {/* <div className=' basis-1/2'>
-                            <div class="relative">
-                                <input type="text" id="fo_roomTypeId" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeId} onChange={ e => { setRoomTypeId(e.target.value) }} />
-                                <label for="fo_roomTypeId" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type ID</label>
-                            </div>
-                        </div> */}
-
                         <div className='basis-1/2'>
                             <div class="relative">
                                 <input type="text" id="fo_roomTypeName" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeName} onChange={ e => { setRoomTypeName(e.target.value) }} />
@@ -300,6 +307,29 @@ const DTRoomTypes = () => {
                     </div>
                 </div>
                 </ModalEditRoomType>
+
+                <ModalRTDeleteWarning show={showDelete} setShow={setShowDelete}>
+                    <div className="space-y-6" action="#">
+                        <div className='flex flex-row justify-between'>
+                            <div className='basis-auto'>
+                                <div className='space-y-6 relative'>
+                                    <span>You are about to delete the Room Type "{roomTypeName}". Click "Delete" to continue.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='flex justify-end'>
+                            <div className='basis-1/4'>
+                                <button type="submit"
+                                    className="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                                    onClick={deleteRoomType}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ModalRTDeleteWarning>
             </div>
 
     )
