@@ -7,7 +7,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
 
     const [employee, updateEmployee] = useState();
-    // const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState([]);
     const [LoginResult, setLoginResult] = useState();
 
     function login (username, password) {
@@ -16,27 +16,33 @@ export const AuthProvider = ({ children }) => {
             .then(response => {return response.text()})
             .then(result => {
                 let loginResult = JSON.parse(result);
-                setLoginResult(loginResult);
+                
+                if (loginResult.status === true) {
+                    setLoginResult(loginResult);
 
-                GetEmployee(loginResult.employee, loginResult.token)
-                .then(response => {return response.text()})
-                .then(result => {
-                    let getEmployeeResult = JSON.parse(result);
-                    
-                    const employeeData = {
-                        "__": getEmployeeResult.id,
-                        "first_name": getEmployeeResult.first_name,
-                        "last_name": getEmployeeResult.last_name,
-                        "email": getEmployeeResult.email,
-                        "token": loginResult.token
-                    };
+                    GetEmployee(loginResult.employee, loginResult.token)
+                    .then(response => {return response.text()})
+                    .then(result => {
+                        let getEmployeeResult = JSON.parse(result);
+                        
+                        const employeeData = {
+                            "__": getEmployeeResult.id,
+                            "first_name": getEmployeeResult.first_name,
+                            "last_name": getEmployeeResult.last_name,
+                            "email": getEmployeeResult.email,
+                            "token": loginResult.token
+                        };
 
-                    window.sessionStorage.setItem("employeeData", JSON.stringify(employeeData));
-                    updateEmployee(JSON.parse(window.sessionStorage.getItem("employeeData")));
-                })
-                .catch(error => {console.log(error)});
+                        window.sessionStorage.setItem("employeeData", JSON.stringify(employeeData));
+                        updateEmployee(JSON.parse(window.sessionStorage.getItem("employeeData")));
+                    })
+                    .catch(error => {console.log(error)});
+
+                } else {
+                    setErrors(loginResult);
+                }
             })
-            .catch(error => {console.log(error)});
+            .catch(error => {return error});
     }
 
     function logout(){
@@ -58,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     },[])
 
 
-    return <AuthContext.Provider value={{ employee, login, LoginResult, logout }}>
+    return <AuthContext.Provider value={{ employee, login, LoginResult, logout, errors }}>
         {children}
     </AuthContext.Provider>
 }
