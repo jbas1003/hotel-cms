@@ -10,6 +10,7 @@ module.exports = {
     colors: {
       whiteSmoke: '#F5F5F5',
       seaGreen: '#3ab16e',
+      lightSeaGreen: "#aaefc8",
       darkSeaGreen: '#2E8B57',
       darkGreen: '#1d5737'
     }

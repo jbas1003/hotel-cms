@@ -145,7 +145,7 @@ const DTRoomTypes = () => {
                         <tbody>
                             {
                                 getAllRoomTypes.map(items => (
-                                    <tr key={items.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <tr key={items.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 boarder-gray-700 hover:bg-lightSeaGreen">
                                         <th scope="row" className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                             <p>{items.room_type_id}</p>
                                         </th>
