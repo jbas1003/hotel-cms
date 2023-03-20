@@ -1,6 +1,7 @@
 import { React, useState} from 'react';
 import { Link } from 'react-router-dom';
 import useAuthContext from '../../../context/AuthContext';
+import mh from '../../../Utils/Images/brand/mh.png';
 
 const NavBar = () => {
     const { employee, logout } = useAuthContext();
@@ -12,11 +13,11 @@ const NavBar = () => {
 
   return (
     <>
-        <nav className="fixed flex justify-between top-0 z-50 w-full h-16 border-b bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+        <nav className="fixed flex justify-between top-0 z-50 w-full h-16 border-b bg-darkSeaGreen border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
             {/* <div className="flex items-center justify-between mx-11"> */}
-                <a href="https://flowbite.com/" className="flex items-center mx-11">
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
-                    <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                <a href="https://flowbite.com/" className="flex items-center mx-2">
+                    <img src={mh} className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
+                    <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Marikina Hotel</span>
                 </a>
                 <div className="w-40">
                     <button type="button"

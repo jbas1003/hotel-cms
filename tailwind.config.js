@@ -9,6 +9,9 @@ module.exports = {
     extend: {},
     colors: {
       whiteSmoke: '#F5F5F5',
+      seaGreen: '#3ab16e',
+      darkSeaGreen: '#2E8B57',
+      darkGreen: '#1d5737'
     }
   },
   plugins: [

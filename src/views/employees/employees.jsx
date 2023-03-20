@@ -58,14 +58,14 @@ const Employees = () => {
 
     function deleteEmployee () {
         DeleteEmployee(id, token)
-        getEmployees();
+        .then(() => {getEmployees();})
         setShowDeleteWarning(false)
     }
     
     const getEmployees = () => {
-        GetEmployees(_result => (
-            setGetAllEmployees(_result)
-        ))
+        GetEmployees(_result => {
+            setGetAllEmployees(_result);
+        });
     }
 
     function tableSearch() {

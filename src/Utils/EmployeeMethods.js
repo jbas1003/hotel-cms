@@ -147,8 +147,5 @@ export const DeleteEmployee = (id, token) => {
         redirect: 'follow'
       };
       
-    fetch(serverRoutes.UDEmployee + id, requestOptions)
-    .then(response => response.text())
-    .then(result => {return result})
-    .catch(error => {return error});
+    return fetch(serverRoutes.UDEmployee + id, requestOptions)
 }
