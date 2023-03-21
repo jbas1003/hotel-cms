@@ -4,8 +4,11 @@ import { AddRoomTypes, DeleteRoomType, GetRoomTypes, UpdateRoomTypes } from '../
 import ModalAddRoomType from './Modals/ModalAddRoomType';
 import ModalEditRoomType from './Modals/ModalEditRoomType';
 import ModalRTDeleteWarning from './Modals/ModalRTDeleteWarning';
+import useAuthContext from '../../../../context/AuthContext';
 
 const DTRoomTypes = () => {
+    const { employee } = useAuthContext();
+
     const [getAllRoomTypes, setGetAllRoomTypes] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
@@ -19,7 +22,7 @@ const DTRoomTypes = () => {
     const [roomTypeCapacity, setRoomTypeCapacity] = useState();
 
     const addRoomType = () => {
-        AddRoomTypes(roomTypeId, roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity)
+        AddRoomTypes(roomTypeId, roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity, employee.token)
         setShowAdd(false);
     }
 
@@ -35,9 +38,7 @@ const DTRoomTypes = () => {
     }
 
     const updateRoomType = () => {
-        UpdateRoomTypes(roomTypeId,roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity)
-        .then(result => {return result})
-        .catch(error => {return error});
+        UpdateRoomTypes(roomTypeId,roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity, employee.token);
 
         setShowEdit(false);
         getRoomTypes();
@@ -51,7 +52,7 @@ const DTRoomTypes = () => {
     }
 
     const deleteRoomType = () => {
-        DeleteRoomType(roomTypeId);
+        DeleteRoomType(roomTypeId, employee.token);
     }
 
     // START: DT Search function
@@ -83,7 +84,7 @@ const DTRoomTypes = () => {
         GetRoomTypes()
         .then(result => {return result.json()})
         .then(result => setGetAllRoomTypes(result))
-        .catch(error => console.log(error));
+        .catch(error => {return error});
     }
 
     useEffect(() => {

@@ -16,4 +16,12 @@ export const serverRoutes = {
     UDRoomTypes: myApiURL + '/room-types/',
 
     //END: Room Types Routes
+
+    // START: Rooms Routes
+
+    rooms: myApiURL + '/rooms',
+    updateRoom: myApiURL + '/rooms/update',
+    deleteRoom: myApiURL + '/rooms/delete',
+
+    // END: Rooms Routes
 }
