@@ -14,10 +14,9 @@ export function GetRoomTypes () {
     return fetch(serverRoutes.roomtypes, requestOptions);
 }
 
-export function AddRoomTypes (roomTypeId, roomName, roomDescription, roomSize, roomPrice, roomCapacity, token) {
+export function AddRoomTypes (roomTypeId, roomName, roomDescription, roomSize, roomPrice, roomCapacity) {
     var myHeaders = new Headers();
 
-    myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-type", "application/json");
 
     var raw = JSON.stringify({
@@ -39,10 +38,9 @@ export function AddRoomTypes (roomTypeId, roomName, roomDescription, roomSize, r
     return fetch(serverRoutes.roomtypes, requestOptions);
 }
 
-export function UpdateRoomTypes (roomTypeId, roomName, roomDescription, roomSize, roomPrice, roomCapacity, token) {
+export function UpdateRoomTypes (roomTypeId, roomName, roomDescription, roomSize, roomPrice, roomCapacity) {
     var myHeaders = new Headers();
 
-    myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-type", "application/json");
 
     var raw = JSON.stringify({
@@ -63,10 +61,9 @@ export function UpdateRoomTypes (roomTypeId, roomName, roomDescription, roomSize
     return fetch(serverRoutes.UDRoomTypes + roomTypeId, requestOptions);
 }
 
-export function DeleteRoomType (roomTypeId, token) {
+export function DeleteRoomType (roomTypeId) {
     var myHeaders = new Headers();
 
-    myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-type", "application/json");
 
     var requestOptions = {
