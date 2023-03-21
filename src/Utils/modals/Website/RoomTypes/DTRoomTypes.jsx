@@ -24,6 +24,7 @@ const DTRoomTypes = () => {
     const addRoomType = () => {
         AddRoomTypes(roomTypeId, roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity, employee.token)
         setShowAdd(false);
+        getRoomTypes();
     }
 
     const editRoomType = (roomTypeId, roomTypeName, roomTypeDesc, roomTypeSize, roomTypePrice, roomTypeCapacity) => {
@@ -83,8 +84,7 @@ const DTRoomTypes = () => {
         // let newResult;
         GetRoomTypes()
         .then(result => {return result.json()})
-        .then(result => setGetAllRoomTypes(result))
-        .catch(error => {return error});
+        .then(result => setGetAllRoomTypes(result));
     }
 
     useEffect(() => {
@@ -145,8 +145,15 @@ const DTRoomTypes = () => {
                         </thead>
                         <tbody>
                             {
-                                getAllRoomTypes.map(items => (
-                                    <tr key={items.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 boarder-gray-700 hover:bg-lightSeaGreen">
+                                getAllRoomTypes.status === 404 ?
+                                    <tr>
+                                        <td colSpan={7} align="center" className='text-3xl'>
+                                            No Records Found...
+                                        </td>
+                                    </tr>
+                                    :
+                                    getAllRoomTypes.map(items => (
+                                        <tr key={items.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 boarder-gray-700 hover:bg-lightSeaGreen">
                                         <th scope="row" className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                             <p>{items.room_type_id}</p>
                                         </th>
@@ -185,49 +192,100 @@ const DTRoomTypes = () => {
                                             </button>
                                         </td>
                                     </tr>
-                                ))
+                                    ))
                             }
                         </tbody>
                     </table>
                 </div>
                 <ModalAddRoomType show={showAdd} setShow={setShowAdd}>
+                    <form>
+                        <div className="space-y-6" action="#">
+                            <div className='flex flex-row justify-between'>
+                                <div className=' basis-1/2'>
+                                    <div className="relative">
+                                        <input type="text" id="fo_roomTypeId" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeId(e.target.value) }} required/>
+                                        <label htmlFor="fo_roomTypeId" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Id</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex flex-row justify-between gap-5'>
+                                <div className='basis-1/2'>
+                                <div className="relative">
+                                        <input type="text" id="fo_roomTypeName" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeName(e.target.value) }} required/>
+                                        <label htmlFor="fo_roomTypeName" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Name</label>
+                                    </div>
+                                </div>
+
+                                <div className='basis-1/2'>
+                                <div className="relative">
+                                        <input type="text" id="fo_roomTypeDesc" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeDesc(e.target.value) }} required/>
+                                        <label htmlFor="fo_roomTypeDesc" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Description</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='flex flex-row justify-between gap-5'>
+                                <div className='basis-1/2'>
+                                    <div className="relative">
+                                        <input type="text" id="fo_roomTypeSize" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeSize(e.target.value) }} required/>
+                                        <label htmlFor="fo_roomTypeSize" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Size</label>
+                                    </div>
+                                </div>
+
+                                <div className='basis-1/2'>
+                                    <div className="relative">
+                                        <input type="text" id="fo_roomTypePrice" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypePrice(e.target.value) }} required/>
+                                        <label htmlFor="fo_roomTypePrice" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Price</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='flex flex-row justify-between gap-5'>
+                                <div className='basis-1/2'>
+                                    <div className="relative">
+                                        <input type="text" id="fo_roomTypeCapacity" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeCapacity(e.target.value) }} required/>
+                                        <label htmlFor="fo_roomTypeCapacity" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Capacity</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className='flex justify-end'>
+                                <div className='basis-1/4'>
+                                    <button type="submit"
+                                        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        onClick={addRoomType}
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ModalAddRoomType>
+
+                <ModalEditRoomType show={showEdit} setShow={setShowEdit}>
+                <form>
                     <div className="space-y-6" action="#">
                         <div className='flex flex-row justify-between'>
-                            <div className=' basis-1/2'>
+                            <div className='basis-1/2'>
                                 <div className="relative">
-                                    <input type="text" id="fo_roomTypeId" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeId(e.target.value) }} />
-                                    <label htmlFor="fo_roomTypeId" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Id</label>
+                                    <input type="text" id="fo_roomTypeName" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeName} onChange={ e => { setRoomTypeName(e.target.value) }} required/>
+                                    <label htmlFor="fo_roomTypeName" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Name</label>
                                 </div>
                             </div>
                         </div>
                         <div className='flex flex-row justify-between gap-5'>
                             <div className='basis-1/2'>
-                            <div className="relative">
-                                    <input type="text" id="fo_roomTypeName" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeName(e.target.value) }}  />
-                                    <label htmlFor="fo_roomTypeName" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Name</label>
-                                </div>
-                            </div>
-
-                            <div className='basis-1/2'>
-                            <div className="relative">
-                                    <input type="text" id="fo_roomTypeDesc" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeDesc(e.target.value) }} />
-                                    <label htmlFor="fo_roomTypeDesc" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Description</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='flex flex-row justify-between gap-5'>
-                            <div className='basis-1/2'>
                                 <div className="relative">
-                                    <input type="text" id="fo_roomTypeSize" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeSize(e.target.value) }} />
-                                    <label htmlFor="fo_roomTypeSize" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Size</label>
+                                    <input type="text" id="fo_roomTypeDescription" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeDesc} onChange={ e => { setRoomTypeDesc(e.target.value) }}  required/>
+                                    <label htmlFor="fo_roomTypeDescription" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Description</label>
                                 </div>
                             </div>
 
                             <div className='basis-1/2'>
                                 <div className="relative">
-                                    <input type="text" id="fo_roomTypePrice" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypePrice(e.target.value) }} />
-                                    <label htmlFor="fo_roomTypePrice" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Price</label>
+                                    <input type="text" id="fo_roomTypeSize" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeSize} onChange={ e => { setRoomTypeSize(e.target.value) }} required/>
+                                    <label htmlFor="fo_roomTypeSize" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Size</label>
                                 </div>
                             </div>
                         </div>
@@ -235,8 +293,15 @@ const DTRoomTypes = () => {
                         <div className='flex flex-row justify-between gap-5'>
                             <div className='basis-1/2'>
                                 <div className="relative">
-                                    <input type="text" id="fo_roomTypeCapacity" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={ e => { setRoomTypeCapacity(e.target.value) }} />
-                                    <label htmlFor="fo_roomTypeCapacity" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Capacity</label>
+                                    <input type="text" id="fo_roomTypePrice" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypePrice} onChange={ e => { setRoomTypePrice(e.target.value) }} required/>
+                                    <label htmlFor="fo_roomTypePrice" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Price</label>
+                                </div>
+                            </div>
+
+                            <div className='basis-1/2'>
+                                <div className="relative">
+                                    <input type="text" id="fo_roomTypeCapacity" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeCapacity} onChange={ e => { setRoomTypeCapacity(e.target.value) }} required/>
+                                    <label htmlFor="fo_roomTypeCapacity" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Capacity</label>
                                 </div>
                             </div>
                         </div>
@@ -245,68 +310,14 @@ const DTRoomTypes = () => {
                             <div className='basis-1/4'>
                                 <button type="submit"
                                     className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    onClick={addRoomType}
+                                    onClick={updateRoomType}
                                 >
                                     Save
                                 </button>
                             </div>
                         </div>
                     </div>
-                </ModalAddRoomType>
-
-                <ModalEditRoomType show={showEdit} setShow={setShowEdit}>
-                <div className="space-y-6" action="#">
-                    <div className='flex flex-row justify-between'>
-                        <div className='basis-1/2'>
-                            <div className="relative">
-                                <input type="text" id="fo_roomTypeName" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeName} onChange={ e => { setRoomTypeName(e.target.value) }} />
-                                <label htmlFor="fo_roomTypeName" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Name</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='flex flex-row justify-between gap-5'>
-                        <div className='basis-1/2'>
-                            <div className="relative">
-                                <input type="text" id="fo_roomTypeDescription" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeDesc} onChange={ e => { setRoomTypeDesc(e.target.value) }}  />
-                                <label htmlFor="fo_roomTypeDescription" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Description</label>
-                            </div>
-                        </div>
-
-                        <div className='basis-1/2'>
-                            <div className="relative">
-                                <input type="text" id="fo_roomTypeSize" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeSize} onChange={ e => { setRoomTypeSize(e.target.value) }} />
-                                <label htmlFor="fo_roomTypeSize" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Size</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-row justify-between gap-5'>
-                        <div className='basis-1/2'>
-                            <div className="relative">
-                                <input type="text" id="fo_roomTypePrice" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypePrice} onChange={ e => { setRoomTypePrice(e.target.value) }} />
-                                <label htmlFor="fo_roomTypePrice" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Price</label>
-                            </div>
-                        </div>
-
-                        <div className='basis-1/2'>
-                            <div className="relative">
-                                <input type="text" id="fo_roomTypeCapacity" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" value={roomTypeCapacity} onChange={ e => { setRoomTypeCapacity(e.target.value) }} />
-                                <label htmlFor="fo_roomTypeCapacity" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Room Type Capacity</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className='flex justify-end'>
-                        <div className='basis-1/4'>
-                            <button type="submit"
-                                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                onClick={updateRoomType}
-                            >
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                </form>
                 </ModalEditRoomType>
 
                 <ModalRTDeleteWarning show={showDelete} setShow={setShowDelete}>
