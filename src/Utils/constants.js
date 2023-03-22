@@ -1,4 +1,4 @@
-export const myApiURL = 'http://hotelcmsv2-env.eba-8vgm8p3v.ap-northeast-1.elasticbeanstalk.com/api/';
+export const myApiURL = 'http://127.0.0.1:8000/api';
 
 export const serverRoutes = {
     // START: Employees Routes
