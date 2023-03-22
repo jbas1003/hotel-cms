@@ -72,7 +72,7 @@ export const AddNewemployee = (employeeId, firstName, lastName, contactNumber, e
     .catch(error => {return error});
 }
 
-export const GetEmployees = () => {
+export const GetEmployees = (callback) => {
     
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -83,7 +83,16 @@ export const GetEmployees = () => {
         redirect: 'follow'
     };
 
-    return fetch(serverRoutes.employees, requestOptions);
+    fetch(serverRoutes.employees, requestOptions)
+    .then(async response => {
+        var newResult = await response.json()
+        // console.log(response.status)
+        if(response.status !== 200) {
+            return response.message
+        }else{
+            callback(newResult)
+        }
+    })
 }
 
 export function GetEmployee (id, token) {
