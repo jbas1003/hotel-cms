@@ -69,12 +69,6 @@ const DTRoomTypes = () => {
         setImagedata(file);
         setShowUpload(true)
         
-        for (let index = 0; index < file.length; index++) {
-            const element = file[index];
-            
-            console.log(element)
-        }
-        
     };
 
     const submitData = (e) => {
