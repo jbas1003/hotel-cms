@@ -63,14 +63,14 @@ function Website() {
 
             <div className=" mb-10 border-b border-gray-200 dark:border-gray-700">
                 <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-                    <li className="mr-2">
+                    {/* <li className="mr-2">
                         <Link onClick={() => CurrentPage("accommodations")} className={`inline-flex p-4 border-b-2 ${(currentPage === 'accommodations') ? "text-darkSeaGreen border-darkSeaGreen rounded-t-lg active dark:text-darkSeaGreen dark:border-darkSeaGreen group" : "border-transparent rounded-t-lg hover:text-darkSeaGreen hover:border-darkSeaGreen dark:hover:text-darkSeaGreen group"} `} aria-current="page">
                             <svg fill="currentColor" className={`w-5 h-5 mr-2 ${(currentPage === 'accommodations') ? "text-darkSeaGreen dark:text-darkSeaGreen" : "text-gray-400 group-hover:text-darkSeaGreen dark:text-gray-500 dark:group-hover:text-darkSeaGreen"} `} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"></path>
                             </svg>
                             <span>Accommodations/Services</span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="mr-2">
                         <Link onClick={() => CurrentPage("rooms")} className={`inline-flex p-4 border-b-2 ${(currentPage === 'rooms') ? "text-darkSeaGreen border-darkSeaGreen rounded-t-lg active dark:text-darkSeaGreen dark:border-darkSeaGreen group" : "border-transparent rounded-t-lg hover:text-darkSeaGreen hover:border-darkSeaGreen dark:hover:text-darkSeaGreen group"} `} >
                             <svg aria-hidden="true" className={`w-5 h-5 mr-2 ${(currentPage === 'rooms') ? "text-darkSeaGreen dark:text-darkSeaGreen" : "text-gray-400 group-hover:text-darkSeaGreen dark:text-darkSeaGreen dark:group-hover:text-darkSeaGreen"} `} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">

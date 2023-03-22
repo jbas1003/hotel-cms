@@ -40,7 +40,7 @@ export function UpdateRoom (roomId, roomNumber, roomTypeId) {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-        "room_id": roomId,
+        // "room_id": roomId,
         "room_no": roomNumber,
         "room_type_id": roomTypeId
     });
@@ -52,7 +52,7 @@ export function UpdateRoom (roomId, roomNumber, roomTypeId) {
         redirect: "follow"
     };
 
-    return fetch(serverRoutes.updateRoom, requestOptions);
+    return fetch(serverRoutes.updateRoom + roomId, requestOptions);
 }
 
 export function DeleteRoom (roomId) {
@@ -60,16 +60,16 @@ export function DeleteRoom (roomId) {
 
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-        "room_id": roomId
-    });
+    // var raw = JSON.stringify({
+    //     "room_id": roomId
+    // });
 
     var requestOptions = {
         method: "DELETE",
         headers: myHeaders,
-        body: raw,
+        // body: raw,
         redirect: "follow"
     };
 
-    return fetch(serverRoutes.deleteRoom, requestOptions);
+    return fetch(serverRoutes.deleteRoom + roomId, requestOptions);
 }

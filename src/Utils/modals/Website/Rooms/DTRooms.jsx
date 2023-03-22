@@ -114,7 +114,7 @@ const DTRooms = () => {
         getRoomTypes();
     }, []);
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="relative block max-h-[700px] overflow-x-auto shadow-md sm:rounded-lg">
             <div className='flex items-center justify-between pb-4'>
                 <div className="pb-4 bg-white dark:bg-gray-900">
                     <label htmlFor="table-search" className="sr-only">Search</label>
@@ -139,47 +139,46 @@ const DTRooms = () => {
             </div>
             
             <table id='roomTypesDTbl' className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-whiteSmoke uppercase bg-darkSeaGreen dark:bg-darkSeaGreen dark:text-whiteSmoke">
+                <thead className="text-xs text-whiteSmoke uppercase bg-darkSeaGreen dark:bg-darkSeaGreen dark:text-whiteSmoke">
                     <tr>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-6 py-3 text-center">
                             Room Number
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-6 py-3 text-center">
                             Room Type
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-6 py-3 text-center">
                             Created On
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-6 py-3 text-center">
                             Updated On
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-6 py-3 text-center">
                             Action
                         </th>
                     </tr>
                 </thead>
-                
                 <tbody>
                     { 
-                        rooms ?
-                            rooms.map((items) => (
-                                <tr id={items.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 boarder-gray-700 hover:bg-lightSeaGreen">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        rooms.status === 200 ?
+                        rooms.body.map((items) => (
+                                <tr id={items.room_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 boarder-gray-700 hover:bg-lightSeaGreen">
+                                    <th scope="row" className="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <p>{items.room_no}</p>
                                     </th>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-center">
                                     <p>{items.name}</p>
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-center">
                                         <p>{items.created_at}</p>
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-center">
                                         <p>{items.updated_at}</p>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap" style={{ cursor: "pointer", width: "20%" }}>
+                                    <td className="px-6 py-4 text-center whitespace-nowrap" style={{ cursor: "pointer", width: "20%" }}>
                                         <button type="button"
                                             className="text-red-800 border border-red-800 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800"
-                                            onClick={() => showDeleteWarning(items.id, items.room_no, items.name)}
+                                            onClick={() => showDeleteWarning(items.room_id, items.room_no, items.name)}
                                         >
                                             <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -194,12 +193,6 @@ const DTRooms = () => {
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                             </svg>
                                         </button>
-                                        <label htmlFor="dropzone-file" data-popover-target="popover-default" className="inline-flex flex-col items-center justify-center w-48 h-9 border-2 border-darkSeaGreen border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                <svg aria-hidden="true" className="w-5 h-5 text-darkSeaGreen" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                            </div>
-                                            <input id="dropzone-file" type="file" className="hidden" />
-                                        </label>
                                     </td>
                                 </tr>
                             ))
@@ -226,9 +219,9 @@ const DTRooms = () => {
                             <select id="fo_room_type" onChange={(e)=>setRoomType(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-darkGreen focus:border-darkGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>Choose Room Type</option>
                             {
-                                roomTypes ?
-                                    roomTypes.map(items => (
-                                        <option value={items.room_type_id}>{items.name}</option>
+                                roomTypes.status === 200 ?
+                                    roomTypes.body.map(items => (
+                                        <option value={items.room_type_id}>{items.name}</option>        
                                     ))
                                 :
                                     <option>No Records Found...</option>
@@ -265,11 +258,13 @@ const DTRooms = () => {
                             <select id="fo_room_type" onChange={(e)=>setRoomType(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-darkGreen focus:border-darkGreen block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option >Choose Room Type</option>
                             {
-                                roomTypes ?
-                                    roomTypes.map(items => (
-                                        items.name === roomTypeName ? <option selected>{roomTypeName}</option> : <option value={items.room_type_id}>{items.name}</option>
-                                        
-                                    ))
+                                roomTypes.status === 200 ?
+                                    roomTypes.body.map(items => (
+                                            items.name === roomTypeName ?
+                                                <option selected>{items.name}</option>
+                                            :
+                                                <option value={items.room_type_id}>{items.name}</option>
+                                        ))
                                 :
                                     <option>No Records Found...</option>
                             }
